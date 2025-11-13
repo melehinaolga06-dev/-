@@ -1,169 +1,160 @@
 <html>
   <head>
-    <title> Дневник исследования муравьёв</title>
+    <title>Дневник исследования муравьёв</title>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
-<body bgcolor="#ADDFAD">
-<h1>Дневник исследования муравьёв <a href="index.html"><img src= "iconka.png" width=40, height=40></a> </h1>
-<form name="forma1">
-
-  Выберите, какой тип муравьёв вы хотите исследовать:<br>
-
-  <input type="radio" name="ant" value="red_forest"
-                                  checked>Рыжий лесной муравей 
-  <input type="radio" name="ant" value="step">
-                                         Степной прыткий муравей
-  <input type="radio" name="ant" value="red_mirmica"
-                                  checked>Рыжая мирмика
-  <input type="radio" name="ant" value="black_tree_eater"
-                                  checked>Чёрный муравей-древоточец
-  <input type="radio" name="ant" value="dern"
-                                  checked>Дерновый муравей
-  <input type="radio" name="ant" value="other"
-                                  checked>Другое
-</form>
-<form name="forma1">
-
-  Размер муравейника:
-  <select name="anthill-size" size"4">
-    <option value="small">Малый
-    <option value="medium">Средний
-    <option value="large">Крупный 
-    <option value="huge">Огромный 
-</select><br><br>
-  
-  Выберите тип муравья по роли в муравейнике:
-  <select name="type" size="4">
-     <option value="queen">Королева
-     <option value="male">Самец
-     <option value="worker">Рабочий
-     <option value="soldier">Солдат
-  </select><br><br>
-
-  Место обитания:
-  <select name="place" size="6">
-     <option value="forest">Лес
-     <option value="field">Поле
-     <option value="tropical">Тропики
-     <option value="desert">Пустыня/Полупустыня
-     <option value="town">Город
-     <option value="other">Другое
-  </select>
-
-  Тип питания:
-  <select name="food" size"6" multiple>
-      <option value="predator">Хищник
-      <option value="herb">Растительнояедный
-      <option value="all">Всеядный
-      <option value="mushrooms">Грибы
-      <option value="seed">Семена
-      <option value="other">Другое
-  </select>
-</form>
-
-<div id="ant-collection">
-    <h2> Учёт коллекции муравьёв</h2>
+  <body bgcolor="#ADDFAD">
+    <h1>Дневник исследования муравьёв <a href="index.html"><img src="iconka.png" width="40" height="40"></a> </h1>
     
-    <form id="antForm" onsubmit="addAntSpecies(event)">
-        <h3>Добавьте вид муравья:</h3>
-        <input type="text" id="antType" placeholder="Тип муравья (например: Рыжий лесной)" required>
-        <input type="number" id="antCount" placeholder="Количество" min="1" required>
-        <button type="submit">Добавить в коллекцию</button>
+    <form name="forma1">
+      Выберите, какой тип муравьёв вы хотите исследовать:<br>
+      <input type="radio" name="ant" value="red_forest" checked>Рыжий лесной муравей 
+      <input type="radio" name="ant" value="step">Степной прыткий муравей
+      <input type="radio" name="ant" value="red_mirmica">Рыжая мирмика
+      <input type="radio" name="ant" value="black_tree_eater">Чёрный муравей-древоточец
+      <input type="radio" name="ant" value="dern">Дерновый муравей
+      <input type="radio" name="ant" value="other">Другое
+    </form>
+    
+    <form name="forma1">
+      Размер муравейника:
+      <select name="anthill-size" size"4">
+        <option value="small">Малый
+        <option value="medium">Средний
+        <option value="large">Крупный 
+        <option value="huge">Огромный 
+      </select><br><br>
+      
+      Выберите тип муравья по роли в муравейнике:
+      <select name="type" size="4">
+        <option value="queen">Королева
+        <option value="male">Самец
+        <option value="worker">Рабочий
+        <option value="soldier">Солдат
+      </select><br><br>
+
+      Место обитания:
+      <select name="place" size="6">
+        <option value="forest">Лес
+        <option value="field">Поле
+        <option value="tropical">Тропики
+        <option value="desert">Пустыня/Полупустыня
+        <option value="town">Город
+        <option value="other">Другое
+      </select>
+
+      Тип питания:
+      <select name="food" size"6" multiple>
+        <option value="predator">Хищник
+        <option value="herb">Растительноядный
+        <option value="all">Всеядный
+        <option value="mushrooms">Грибы
+        <option value="seed">Семена
+        <option value="other">Другое
+      </select>
     </form>
 
-    <div id="antList" style="margin: 15px 0; padding: 10px; border: 1px solid #ccc;"></div>
+    <div id="ant-collection">
+      <h2>Учёт коллекции муравьёв</h2>
+      
+      <form id="antForm">
+        <h3>Добавьте вид муравья:</h3>
+        <input type="text" id="antType" placeholder="Тип муравья">
+        <input type="number" id="antCount" placeholder="Количество">
+        <button type="button" onclick="addAntSpecies()">Добавить в коллекцию</button>
+      </form>
 
-    <button onclick="calculateStats()">Посчитать статистику</button>
-    <button onclick="showAllAnts()">Показать всех муравьёв</button>
-    <div id="statsResult" style="margin-top: 15px; font-weight: bold;"></div>
-</div>
-  
-<script>
-let antTypes = []; 
-let antCounts = []; 
-  
-function addAntSpecies(event) {
-    const typeInput = document.getElementById('antType');
-    const countInput = document.getElementById('antCount');
-    
-    const type = typeInput.value.trim();
-    const count = parseInt(countInput.value);
-    
-    antTypes.push(type); 
-    antCounts.push(count);
+      <div id="antList" style="margin: 15px 0; padding: 10px; border: 1px solid #ccc;"></div>
 
-   typeInput.value = '';
-   countInput.value = '';
+      <button onclick="calculateStats()">Посчитать статистику</button>
+      <button onclick="showAllAnts()">Показать всех муравьёв</button>
+      <div id="statsResult" style="margin-top: 15px; font-weight: bold;"></div>
+    </div>
+    
+    <form name="forma1">
+      <label for="load">Прикрепите свои файлы: </label>
+      <input type="file" name="load" size="30">
+    </form>            
+    
+    <script>
+      let antTypes = []; 
+      let antCounts = []; 
+      
+      function addAntSpecies() {
+        const typeInput = document.getElementById('antType');
+        const countInput = document.getElementById('antCount');
+        
+        const type = typeInput.value;
+        const count = parseInt(countInput.value);
+        
+        antTypes.push(type); 
+        antCounts.push(count);
 
-  displayAntList();
-    
-    alert(`Добавлено: ${type} - ${count} особей`);
-}
-  
-function displayAntList() {
-    const listDiv = document.getElementById('antList');
-    
-    if (antTypes.length === 0) {
-        listDiv.innerHTML = '<em>Коллекция пуста. Добавьте муравьёв!</em>';
-        return;
-    }
+        typeInput.value = '';
+        countInput.value = '';
 
-let html = '<strong>Ваша коллекция муравьёв:</strong><ul>';
-    
+        displayAntList();
+        alert(`Добавлено: ${type} - ${count} особей`);
+      }
+      
+      function displayAntList() {
+        const listDiv = document.getElementById('antList');
+        
+        if (antTypes.length === 0) {
+          listDiv.innerHTML = '<em>Коллекция пуста. Добавьте муравьёв!</em>';
+          return;
+        }
 
-    for (let i = 0; i < antTypes.length; i++) {
-        html += `<li>${antTypes[i]} - ${antCounts[i]} особей</li>`;
-    }
-    
-    html += '</ul>';
-    listDiv.innerHTML = html;
-}
-  function calculateStats() {
-    if (antTypes.length === 0) {
-        document.getElementById('statsResult').innerHTML = 
-            '<span>Коллекция пуста!</span>';
-        return;
-    }
-    
-    
-    const totalSpecies = antTypes.length;
-    
-    let totalAnts = 0;
-    for (let i = 0; i < antCounts.length; i++) {
-        totalAnts += antCounts[i];
-    }
-    
-    
-    const resultDiv = document.getElementById('statsResult');
-    resultDiv.innerHTML = `
-        <strong>Статистика коллекции:</strong><br>
-         Количество видов: ${totalSpecies}<br>
-         Общее число муравьёв: ${totalAnts}<br>
-
-    `;
-}
-
-
-    
-    let message = "ВСЯ КОЛЛЕКЦИЯ МУРАВЬЁВ:\n\n";
-    
-    for (let i = 0; i < antTypes.length; i++) {
-        message += `${i + 1}. ${antTypes[i].toUpperCase()} - ${antCounts[i]} особей\n`;
-    }
-    
-    const totalAnts = antCounts.reduce((sum, count) => sum + count, 0);
-    message += `\nИТОГО: ${antTypes.length} видов, ${totalAnts} особей`;
-    
-    alert(message);
-}
-displayAntList();
-</script>
-  
-  <form name="forma1">
-
-  <label for="load">Прикрепите свои файлы: </label>
-  <input type="file" name="load" size="30">
-
-</form>            
-</body>
+        let html = '<strong>Ваша коллекция муравьёв:</strong><ul>';
+        
+        for (let i = 0; i < antTypes.length; i++) {
+          html += `<li>${antTypes[i]} - ${antCounts[i]} особей</li>`;
+        }
+        
+        html += '</ul>';
+        listDiv.innerHTML = html;
+      }
+      
+      function calculateStats() {
+        if (antTypes.length === 0) {
+          document.getElementById('statsResult').innerHTML = '<span>Коллекция пуста!</span>';
+          return;
+        }
+        
+        const totalSpecies = antTypes.length;
+        
+        let totalAnts = 0;
+        for (let i = 0; i < antCounts.length; i++) {
+          totalAnts += antCounts[i];
+        }
+        
+        const resultDiv = document.getElementById('statsResult');
+        resultDiv.innerHTML = `
+          <strong>Статистика коллекции:</strong><br>
+          Количество видов: ${totalSpecies}<br>
+          Общее число муравьёв: ${totalAnts}<br>
+        `;
+      }
+      
+      function showAllAnts() {
+        if (antTypes.length === 0) {
+          alert('Коллекция пуста!');
+          return;
+        }
+        
+        let message = "ВСЯ КОЛЛЕКЦИЯ МУРАВЬЁВ:\n\n";
+        
+        for (let i = 0; i < antTypes.length; i++) {
+          message += `${i + 1}. ${antTypes[i]} - ${antCounts[i]} особей\n`;
+        }
+        
+        const totalAnts = antCounts.reduce((sum, count) => sum + count, 0);
+        message += `\nИТОГО: ${antTypes.length} видов, ${totalAnts} особей`;
+        
+        alert(message);
+      }
+      
+      displayAntList();
+    </script>
+  </body>
 </html>
