@@ -48,7 +48,6 @@
     <br>
     <button onclick="checkResults()">Проверить результаты</button>
     <button onclick="resetTest()">Начать заново</button>
-    <button onclick="showTestInfo()">Информация о тесте</button>
     
     <div id="scoreInfo" style="margin-top: 10px; font-weight: bold;"></div>
     <div id="timeInfo" style="margin-top: 5px; color: #666;"></div>
@@ -139,21 +138,6 @@
         document.getElementById('timeInfo').innerHTML = 'Тест начат: ' + startTime.toLocaleTimeString();
         
         alert('Тест сброшен! Начните заново.');
-      }
-      function showTestInfo() {
-        const title = "информация о тесте про муравьёв";
-        const formattedTitle = title.toUpperCase(); 
-        
-        const description = "Этот тест проверяет ваши знания о муравьях. Вы узнаете о их биологии, поведении и интересных фактах.";
-        const shortDescription = description.substring(0, 40) + "..."; 
-        
-        const infoMessage = `
-${formattedTitle}
-
-${shortDescription}
-Всего вопросов: ${Object.keys(correctAnswers).length}
-        
-        alert(infoMessage);
       }
       document.getElementById('timeInfo').innerHTML = 
         'Тест начат: ' + startTime.toLocaleTimeString();
