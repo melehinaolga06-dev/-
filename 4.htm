@@ -61,19 +61,109 @@
   </select>
 </form>
 
-<form name="forma1">
+<div id="ant-collection">
+    <h2> Учёт коллекции муравьёв</h2>
+    
+    <form id="antForm" onsubmit="addAntSpecies(event)">
+        <h3>Добавьте вид муравья:</h3>
+        <input type="text" id="antType" placeholder="Тип муравья (например: Рыжий лесной)" required>
+        <input type="number" id="antCount" placeholder="Количество" min="1" required>
+        <button type="submit">Добавить в коллекцию</button>
+    </form>
 
-     <input type="text" name="text1" size="20"
-            maxlength="50" value="Напишите свои заметки">
-</form>
+    <div id="antList" style="margin: 15px 0; padding: 10px; border: 1px solid #ccc;"></div>
+
+    <button onclick="calculateStats()">Посчитать статистику</button>
+    <button onclick="showAllAnts()">Показать всех муравьёв</button>
+    <div id="statsResult" style="margin-top: 15px; font-weight: bold;"></div>
+</div>
+  
+<script>
+let antTypes = []; 
+let antCounts = []; 
+  
+function addAntSpecies(event) {
+    const typeInput = document.getElementById('antType');
+    const countInput = document.getElementById('antCount');
+    
+    const type = typeInput.value.trim();
+    const count = parseInt(countInput.value);
+    
+    antTypes.push(type); 
+    antCounts.push(count);
+
+   typeInput.value = '';
+   countInput.value = '';
+
+  displayAntList();
+    
+    alert(`Добавлено: ${type} - ${count} особей`);
+}
+  
+function displayAntList() {
+    const listDiv = document.getElementById('antList');
+    
+    if (antTypes.length === 0) {
+        listDiv.innerHTML = '<em>Коллекция пуста. Добавьте муравьёв!</em>';
+        return;
+    }
+
+let html = '<strong>Ваша коллекция муравьёв:</strong><ul>';
+    
+
+    for (let i = 0; i < antTypes.length; i++) {
+        html += `<li>${antTypes[i]} - ${antCounts[i]} особей</li>`;
+    }
+    
+    html += '</ul>';
+    listDiv.innerHTML = html;
+}
+  function calculateStats() {
+    if (antTypes.length === 0) {
+        document.getElementById('statsResult').innerHTML = 
+            '<span>Коллекция пуста!</span>';
+        return;
+    }
+    
+    
+    const totalSpecies = antTypes.length;
+    
+    let totalAnts = 0;
+    for (let i = 0; i < antCounts.length; i++) {
+        totalAnts += antCounts[i];
+    }
+    
+    
+    const resultDiv = document.getElementById('statsResult');
+    resultDiv.innerHTML = `
+        <strong>Статистика коллекции:</strong><br>
+         Количество видов: ${totalSpecies}<br>
+         Общее число муравьёв: ${totalAnts}<br>
+
+    `;
+}
+
+
+    
+    let message = "ВСЯ КОЛЛЕКЦИЯ МУРАВЬЁВ:\n\n";
+    
+    for (let i = 0; i < antTypes.length; i++) {
+        message += `${i + 1}. ${antTypes[i].toUpperCase()} - ${antCounts[i]} особей\n`;
+    }
+    
+    const totalAnts = antCounts.reduce((sum, count) => sum + count, 0);
+    message += `\nИТОГО: ${antTypes.length} видов, ${totalAnts} особей`;
+    
+    alert(message);
+}
+displayAntList();
+</script>
+  
   <form name="forma1">
 
   <label for="load">Прикрепите свои файлы: </label>
   <input type="file" name="load" size="30">
 
-</form>
-        
-  
-               
+</form>            
 </body>
 </html>
