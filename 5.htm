@@ -3,6 +3,7 @@
     <title>Тест</title>
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
+  <body>
 <h1>Тест: Насколько хорошо ты знаешь муравьёв? <a href="index.html"><img src= "iconka.png" width=40, height=40></a> </h1>
 <p>В этом тесте Вы сможете проверить свои знания о муравьях:) </p>
 <div class="question">
@@ -38,9 +39,9 @@
 
   <div class="question">
         <h3>5. Что такое падь?</h3>
-        <input type="radio" name="q4" value="wrong"> Падаль - погибшие насекомые<br>
-        <input type="radio" name="q4" value="correct"> Жидкость, выделяемая некоторыми насекомыми<br>
-        <input type="radio" name="q4" value="wrong"> Опавшие плоды и семена<br>
+        <input type="radio" name="q5" value="wrong"> Падаль - погибшие насекомые<br>
+        <input type="radio" name="q5" value="correct"> Жидкость, выделяемая некоторыми насекомыми<br>
+        <input type="radio" name="q5" value="wrong"> Опавшие плоды и семена<br>
     </div>
 
     <br>
@@ -57,7 +58,8 @@ const correctAnswers = {
     q1: 'correct',  
     q2: 'correct',    
     q3: 'correct',   
-    q4: 'correct'   
+    q4: 'correct',
+    q5: 'correct'
 };
 
 function checkResults() {
@@ -121,5 +123,5 @@ function resetTest() {
     
     alert('Тест сброшен! Начните заново.');
 }
-
+</body>
 </html>
