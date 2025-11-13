@@ -4,124 +4,159 @@
     <link rel="stylesheet" type="text/css" href="style.css">
   </head>
   <body bgcolor="#ADDFAD">
-<h1>Тест: Насколько хорошо ты знаешь муравьёв? <a href="index.html"><img src= "iconka.png" width=40, height=40></a> </h1>
-<p>В этом тесте Вы сможете проверить свои знания о муравьях:) </p>
-<div class="question">
-        <h3>1. К какому отряду относятся муравьи?</h3>
-        <input type="radio" name="q1" value="correct"> Перепончатокрылые<br>
-        <input type="radio" name="q1" value="wrong"> Жесткокрылые<br>
-        <input type="radio" name="q1" value="wrong"> Чешуекрылые<br>
+    <h1>Тест: Насколько хорошо ты знаешь муравьёв? <a href="index.html"><img src="iconka.png" width="40" height="40"></a> </h1>
+    <p>В этом тесте Вы сможете проверить свои знания о муравьях:) </p>
+    
+    <div class="question">
+      <h3>1. К какому отряду относятся муравьи?</h3>
+      <input type="radio" name="q1" value="correct"> Перепончатокрылые<br>
+      <input type="radio" name="q1" value="wrong"> Жесткокрылые<br>
+      <input type="radio" name="q1" value="wrong"> Чешуекрылые<br>
     </div>
 
     <div class="question">
-        <h3>2. Сколько стадий развития у муравьёв?</h3>
-        <input type="radio" name="q2" value="wrong"> 3<br>
-        <input type="radio" name="q2" value="correct"> 4<br>
-        <input type="radio" name="q2" value="wrong"> 5<br>
-        <input type="radio" name="q2" value="wrong"> 6<br>
+      <h3>2. Сколько стадий развития у муравьёв?</h3>
+      <input type="radio" name="q2" value="wrong"> 3<br>
+      <input type="radio" name="q2" value="correct"> 4<br>
+      <input type="radio" name="q2" value="wrong"> 5<br>
+      <input type="radio" name="q2" value="wrong"> 6<br>
     </div>
 
     <div class="question">
-        <h3>3. Какие муравьи в муравейнике отвечают за хранение воды?</h3>
-        <input type="radio" name="q3" value="wrong"> Водоносы<br>
-        <input type="radio" name="q3" value="wrong"> Резервуары<br>
-        <input type="radio" name="q3" value="correct"> Бочки<br>
+      <h3>3. Какие муравьи в муравейнике отвечают за хранение воды?</h3>
+      <input type="radio" name="q3" value="wrong"> Водоносы<br>
+      <input type="radio" name="q3" value="wrong"> Резервуары<br>
+      <input type="radio" name="q3" value="correct"> Бочки<br>
     </div>
 
     <div class="question">
-        <h3>4. Каких насекомых НЕ разводят муравьи?</h3>
+      <h3>4. Каких насекомых НЕ разводят муравьи?</h3>
       <input type="radio" name="q4" value="wrong"> червецы<br>
-        <input type="radio" name="q4" value="correct"> плодовые мушки<br>
-        <input type="radio" name="q4" value="wrong"> тля <br>
-        <input type="radio" name="q4" value="wrong"> листоблошки<br>
+      <input type="radio" name="q4" value="correct"> плодовые мушки<br>
+      <input type="radio" name="q4" value="wrong"> тля <br>
+      <input type="radio" name="q4" value="wrong"> листоблошки<br>
       <input type="radio" name="q4" value="wrong"> цикады<br>
     </div>
 
-  <div class="question">
-        <h3>5. Что такое падь?</h3>
-        <input type="radio" name="q5" value="wrong"> Падаль - погибшие насекомые<br>
-        <input type="radio" name="q5" value="correct"> Жидкость, выделяемая некоторыми насекомыми<br>
-        <input type="radio" name="q5" value="wrong"> Опавшие плоды и семена<br>
+    <div class="question">
+      <h3>5. Что такое падь?</h3>
+      <input type="radio" name="q5" value="wrong"> Падаль - погибшие насекомые<br>
+      <input type="radio" name="q5" value="correct"> Жидкость, выделяемая некоторыми насекомыми<br>
+      <input type="radio" name="q5" value="wrong"> Опавшие плоды и семена<br>
     </div>
 
     <br>
     <button onclick="checkResults()">Проверить результаты</button>
     <button onclick="resetTest()">Начать заново</button>
+    <button onclick="showTestInfo()">Информация о тесте</button>
     
     <div id="scoreInfo" style="margin-top: 10px; font-weight: bold;"></div>
-</div>
+    <div id="timeInfo" style="margin-top: 5px; color: #666;"></div>
 
-<script>
-let totalScore = 0;
-  
-const correctAnswers = {
-    q1: 'correct',  
-    q2: 'correct',    
-    q3: 'correct',   
-    q4: 'correct',
-    q5: 'correct'
-};
+    <script>
+      let totalScore = 0;
+      let startTime = new Date(); 
+      
+      const correctAnswers = {
+        q1: 'correct',  
+        q2: 'correct',    
+        q3: 'correct',   
+        q4: 'correct',
+        q5: 'correct'
+      };
+      function getTestTime() {
+        const endTime = new Date();
+        const timeDiff = (endTime - startTime) / 1000; 
+        return timeDiff;
+      }
 
-function checkResults() {
-    totalScore = 0;
-    
-    for (let question in correctAnswers) {
-        const selectedAnswer = getSelectedValue(question);
+      function formatTime(seconds) {
+        const roundedSeconds = Math.round(seconds);
+        return `${roundedSeconds} секунд`;
+      }
+
+      function checkResults() {
+        totalScore = 0;
         
-        if (selectedAnswer === correctAnswers[question]) {
+        for (let question in correctAnswers) {
+          const selectedAnswer = getSelectedValue(question);
+          
+          if (selectedAnswer === correctAnswers[question]) {
             totalScore++;
+          }
         }
-    }
-    
-    
-    showFinalResult();
-}
+        
+        showFinalResult();
+      }
 
-
-function getSelectedValue(questionName) {
-    const radios = document.getElementsByName(questionName);
-    
-    for (let radio of radios) {
-        if (radio.checked) {
+      function getSelectedValue(questionName) {
+        const radios = document.getElementsByName(questionName);
+        
+        for (let radio of radios) {
+          if (radio.checked) {
             return radio.value;
+          }
         }
-    }
-    return null; 
-}
+        return null; 
+      }
 
-function showFinalResult() {
-    const totalQuestions = Object.keys(correctAnswers).length;
-    const percentage = Math.round((totalScore / totalQuestions) * 100);
-    
-    
-    let message = `Ваш результат: ${totalScore} из ${totalQuestions} баллов (${percentage}%)`;
-    
-    // Добавляем оценку
-    if (percentage === 100) {
-        message += "\n Отлично! Вы хорошо знаете муравьёв.";
-    } else if (percentage >= 50) {
-        message += "\n Неплохо, но можно лучше.";
-    } else {
-        message += "\n Почитайте ещё о муравьях.";
-    }
-    
-    alert(message);
-    
-   
-    document.getElementById('scoreInfo').innerHTML = 
-        `Набрано баллов: ${totalScore} из ${totalQuestions}`;
-}
+      function showFinalResult() {
+        const totalQuestions = Object.keys(correctAnswers).length;
+        const percentage = Math.round((totalScore / totalQuestions) * 100); 
+        const testTime = getTestTime();
+  
+        const baseMessage = `Ваш результат: ${totalScore} из ${totalQuestions} баллов (${percentage}%)`;
+        const timeMessage = `Время прохождения: ${formatTime(testTime)}`;
+        
+        let finalMessage = baseMessage.toUpperCase(); 
+        finalMessage += "\n" + timeMessage;
+        
+        if (percentage === 100) {
+          finalMessage += "\n\nОтлично! Вы хорошо знаете муравьёв.";
+        } else if (percentage >= 50) {
+          finalMessage += "\n\nНеплохо, но можно лучше.";
+        } else {
+          finalMessage += "\n\nПочитайте ещё о муравьях.";
+        }
+        
+        alert(finalMessage);
 
-function resetTest() {
-    const allRadios = document.querySelectorAll('input[type="radio"]');
-    allRadios.forEach(radio => {
-        radio.checked = false;
-    });
-    
-    totalScore = 0;
-    document.getElementById('scoreInfo').innerHTML = '';
-    
-    alert('Тест сброшен! Начните заново.');
-}
-</body>
+        document.getElementById('scoreInfo').innerHTML = 
+          `Набрано баллов: ${totalScore} из ${totalQuestions}`;
+        document.getElementById('timeInfo').innerHTML = 
+          `Время прохождения: ${formatTime(testTime)}`;
+      }
+
+      function resetTest() {
+        const allRadios = document.querySelectorAll('input[type="radio"]');
+        allRadios.forEach(radio => {
+          radio.checked = false;
+        });
+        
+        totalScore = 0;
+        startTime = new Date();
+        document.getElementById('scoreInfo').innerHTML = '';
+        document.getElementById('timeInfo').innerHTML = 'Тест начат: ' + startTime.toLocaleTimeString();
+        
+        alert('Тест сброшен! Начните заново.');
+      }
+      function showTestInfo() {
+        const title = "информация о тесте про муравьёв";
+        const formattedTitle = title.toUpperCase(); 
+        
+        const description = "Этот тест проверяет ваши знания о муравьях. Вы узнаете о их биологии, поведении и интересных фактах.";
+        const shortDescription = description.substring(0, 40) + "..."; 
+        
+        const infoMessage = `
+${formattedTitle}
+
+${shortDescription}
+Всего вопросов: ${Object.keys(correctAnswers).length}
+        
+        alert(infoMessage);
+      }
+      document.getElementById('timeInfo').innerHTML = 
+        'Тест начат: ' + startTime.toLocaleTimeString();
+    </script>
+  </body>
 </html>
